@@ -1,10 +1,10 @@
 # MLB 07 더 쇼 PS2 한글패치
 
-PS2 북미판 **MLB 07: The Show (SCUS-97556, v2.00)**용 비공식 한국어 패치입니다. 메뉴, 옵션, 경기 HUD, 도움말, 게임 팁, 선수 소개, 커리어·프랜차이즈 문구를 한국어로 바꿨습니다. **팀 이름과 선수 이름**도 한글로 나오며, 선수 이름을 바꿔도 **선수 얼굴(머리 모델)이 그대로 나오도록** 머리 파일 경로를 연결했습니다. 현재 배포판은 **v1.0 (2026-11-05)**입니다.
+PS2 북미판 **MLB 07: The Show (SCUS-97556, v2.00)**용 비공식 한국어 패치입니다. 메뉴, 옵션, 경기 HUD, 도움말, 게임 팁, 선수 소개, 커리어·프랜차이즈 문구를 한국어로 바꿨습니다. **팀 이름과 선수 이름**도 한글로 나오며, 선수 이름을 바꿔도 **선수 얼굴(머리 모델)이 그대로 나오도록** 머리 파일 경로를 연결했습니다. 현재 배포판은 **v1.1 (2026-11-24)**입니다.
 
 [패치 다운로드](https://github.com/snake759494/mlb-07-the-show-ps2-korean-patch/releases/latest) · [기술 설명](docs/TECHNICAL.md) · [재빌드](docs/BUILD.md) · [변경 기록](CHANGELOG.md) · [권리 안내](RIGHTS.md)
 
-릴리즈 첨부 파일은 한글패치 **MLB07_THE_SHOW_PS2_KO_v1.0.xdelta** 하나입니다.
+릴리즈 첨부 파일은 한글패치 **MLB07_THE_SHOW_PS2_KO_v1.1.xdelta** 하나입니다.
 
 저장소에는 제작 소스와 번역만 공개합니다. 원본 디스크 이미지와 완성된 디스크 이미지, 추출한 게임 파일, 글꼴 파일, 외부 실행 파일은 포함하지 않습니다. GitHub가 자동으로 만드는 Source code ZIP/TAR는 저장소 소스를 압축한 것이며 게임 파일이 아닙니다.
 
@@ -27,11 +27,11 @@ PS2 북미판 **MLB 07: The Show (SCUS-97556, v2.00)**용 비공식 한국어 �
 
 | 항목 | 값 |
 | --- | --- |
-| xdelta 크기 | 34,915,984 바이트 |
-| xdelta SHA-256 | `5924e6d494e558b8d27db008bbba80d11020406e684ffb68620b0a0232f990a5` |
+| xdelta 크기 | 35,004,553 바이트 |
+| xdelta SHA-256 | `7eb617e42b90d20db73032a5456dc61507107d69dceef48cafe5e3027cd50c9e` |
 | 결과 ISO 크기 | 4,419,864,576 바이트 |
-| 결과 ISO MD5 | `78493dbdef3b73f4a1aee6cb1baf609a` |
-| 결과 ISO SHA-256 | `d3ca0065955390a44423360f40babba99404fa162c59204963b714ccf0066fec` |
+| 결과 ISO MD5 | `3a9128332d13dc566d1dabdcd6681de9` |
+| 결과 ISO SHA-256 | `fb1d2bee21b5bd00ef0c491faa35bf223ec79bc85b5c65057f8f131df08ed613` |
 | 게임 CRC (PCSX2) | `DC34A11C` (원본과 같음, 실행파일은 고치지 않음) |
 
 원본 게임 파일은 사용자가 직접 준비해야 합니다.
@@ -48,7 +48,7 @@ Get-FileHash -Algorithm MD5 -LiteralPath ".\MLB 07 - The Show (USA) (v2.00).iso"
 
 ### xdelta UI 사용
 
-1. 릴리즈에서 `MLB07_THE_SHOW_PS2_KO_v1.0.xdelta`를 받습니다.
+1. 릴리즈에서 `MLB07_THE_SHOW_PS2_KO_v1.1.xdelta`를 받습니다.
 2. xdelta3 패치를 지원하는 도구(예: xdelta UI)에서 **Apply Patch** 기능을 엽니다.
 3. **Patch**에는 xdelta 파일을, **Source File**에는 해시가 일치하는 원본 `.iso`를 선택합니다.
 4. **Output File**에는 새 파일 이름을 지정합니다(예: `MLB 07 - The Show (USA) (v2.00) (Korean).iso`).
@@ -59,10 +59,10 @@ xdelta는 호환성을 위해 2차 압축·파일 경로 헤더 없이(`-S none 
 ### 명령줄 사용
 
 ```powershell
-.\xdelta3.exe -d -s ".\MLB 07 - The Show (USA) (v2.00).iso" '.\MLB07_THE_SHOW_PS2_KO_v1.0.xdelta' '.\MLB 07 - The Show (USA) (v2.00) (Korean).iso'
+.\xdelta3.exe -d -s ".\MLB 07 - The Show (USA) (v2.00).iso" '.\MLB07_THE_SHOW_PS2_KO_v1.1.xdelta' '.\MLB 07 - The Show (USA) (v2.00) (Korean).iso'
 ```
 
-해시 검사까지 한 번에 하려면 `python tools/apply_release.py --xdelta xdelta3.exe --source "MLB 07 - The Show (USA) (v2.00).iso" --patch MLB07_THE_SHOW_PS2_KO_v1.0.xdelta --output "MLB 07 - The Show (USA) (v2.00) (Korean).iso"`를 쓰세요.
+해시 검사까지 한 번에 하려면 `python tools/apply_release.py --xdelta xdelta3.exe --source "MLB 07 - The Show (USA) (v2.00).iso" --patch MLB07_THE_SHOW_PS2_KO_v1.1.xdelta --output "MLB 07 - The Show (USA) (v2.00) (Korean).iso"`를 쓰세요.
 
 ### PCSX2에서 실행
 
@@ -96,7 +96,7 @@ xdelta는 호환성을 위해 2차 압축·파일 경로 헤더 없이(`-S none 
 ## 알려진 한계
 
 - **유니폼 등 이름은 비어 있습니다.** 등 이름은 영문 글자 텍스처로 그려서 한글 성을 표시할 수 없고, 영문 성을 따로 둘 공간도 없어 등번호만 나오게 했습니다.
-- 옵션 값 중 ON/OFF/MEDIUM 같은 일부 단어와 ALC/NLC, "2007 EXHIBITION GAME", 경기 중 일부 기록 문구("9th in AL in Batting Avg." 등)는 영문입니다.
+- 옵션 값 중 ON/OFF/MEDIUM 같은 일부 단어와 ALC/NLC, 경기 중 일부 기록 문구("9th in AL in Batting Avg." 등)는 영문입니다. 통계 화면의 좌·우투 상대 머리글은 칸이 좁아 영문(vs. LHP/RHP)으로 둡니다.
 - 도시 이름이 한글이 되면서 구장 선택 목록의 정렬 순서가 원본과 다릅니다.
 - 장내 아나운서가 선수 이름을 부르는 기능은 확인하지 못했습니다.
 - 인게임 확인은 PCSX2로 메인 메뉴, 팀·투수·구장 선택, 시범 경기(디트로이트 대 세인트루이스) 진행까지 했습니다. 커리어, 프랜차이즈, 시즌, 홈런 더비, 온라인 메뉴, 메모리 카드 실제 저장, 실기는 확인하지 못했습니다. 칸을 넘치거나 글자가 깨지거나 얼굴이 사라지는 화면이 있으면 이슈로 알려 주세요.

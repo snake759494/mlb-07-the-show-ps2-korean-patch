@@ -16,6 +16,9 @@ INLBLOCK = set('''Home Away Crimson Cobalt American National Player Runner Batte
 Step Lift Left Right Center'''.split()) | {'Player 1', 'Player 2', 'Right Field', 'Center Field', 'Left Field', 'Third Base', 'Second Base',
     'First Base', 'Short Stop', 'Base Coach1', 'Base Coach2'}
 SINGLE_OK = set('''Rookie Veteran All-Star Legend Default Meter Classic Night Day Assist Manual Enhanced Broadcast Dynamic Arcade Simulation Easy Hard'''.split())
+# 대문자 표시 문자열(일시정지 메뉴·기록 항목): 참조가 있어도 제자리 치환만 (주소 불변)
+UP_OK = set('''PRESENTATIONS AUDIO RESTART EXIT EJECTIONS WIND AT-BATS SHUTOUTS HITS DOUBLES TRIPLES RUNS WINS LOSSES SAVES STRIKEOUTS
+WALKS GAMES INNINGS CONTROLS REPLAY OPTIONS DAY'''.split()) | {'EXIT GAME', 'RUNNER WINDOWS', 'BROADCAST PRESENTATIONS', 'AL WILD CARD', 'NL WILD CARD'}
 GTSHELL = [0x10b52d4, 0x2b88660e, 0x94ca1258]
 CODE = re.compile(r'\^[^^]*\^|%\d')
 
@@ -31,6 +34,19 @@ def load_tr():
         out[k] = v
     print('번역', len(out), '제외', bad)
     return out
+
+LEAD = re.compile(rb'^((?:\^[a-z]\d*\^)*)(.*)$', re.S)
+def ci_map(b, m, ci):
+    """화면세트 문자열 중 정확히 맞는 번역이 없는 것: 앞 서식 코드(^j1^ 등)를 떼고 대소문자 무시로 찾는다
+    (영문 화면은 같은 문구를 대문자로 다시 쓰는 경우가 많음)."""
+    m = dict(m)
+    for s_, e_, t in scr.strings(b):
+        if t in m: continue
+        pre, core = LEAD.match(t).groups()
+        if not re.search(rb'[A-Za-z]{2}', core) or core.lower() not in ci: continue
+        if core.upper() != core and pre == b'' : continue     # 대문자/서식 차이만 보정
+        m[t] = pre + ci[core.lower()]
+    return m
 
 def load_extra():
     ex = {}
@@ -74,7 +90,7 @@ def main(run_build=True):
     prio_g = {c: i for i, (c, n) in enumerate(occ.most_common())}
     wf = {}
     for n in ([] if os.environ.get('ORIGFONT') else os.environ.get('FONTS', 'english,game,game2').split(',')):
-        b, t, img = fontgen.build(n, chars, W=int(os.environ.get('GW_'+n, 256 if n == 'game' else 512)), prio=prio_g if n == 'game' else prio)
+        b, t, img = fontgen.build(n, chars, W=int(os.environ.get('GW_'+n, 512)), prio=prio_g if n == 'game' else prio)
         wf['frontend/art/fonts/%s.bin' % n] = b; wf['frontend/art/fonts/%s.tx2' % n] = t
     nsc = 0
     exb = {k.encode('latin1'): E.enc(v) for k, v in ex.items()}
@@ -91,11 +107,15 @@ def main(run_build=True):
         nb = scr.apply(b, pad)
         if nb != b: wf[h] = nb
     trall = dict(ex); trall.update(tr); ngt = 0
+    tbci = {}
+    for k_, v_ in tbx.items(): tbci.setdefault(k_.lower(), v_)
+    for k_, v_ in tb.items(): tbci[k_.lower()] = v_
     for h in sorted(sf):
         b = wadfs.read(wadfs.BYH[h]); m_ = tbx if h in sf else tb
         if not os.environ.get('NOGT') and b'GT_' in b[:400]:
             g_ = gtips.plan(b, trall)
             if g_: m_ = dict(m_); m_.update({k_: E.enc(v_) for k_, v_ in g_.items()}); ngt += 1
+        if not os.environ.get('NOCI'): m_ = ci_map(b, m_, tbci)
         nb = scr.apply(b, m_)
         if nb != b: wf[h] = nb; nsc += 1
     trs = {k: E.enc(v).decode('latin1') for k, v in tr.items()}
@@ -184,11 +204,11 @@ def main(run_build=True):
             _, out_, _ = relstr.scan(os.path.join(ROOT, 'work', 'ext', n + '.REL'), relcand.LO[n])
             ni = 0
             for s_, t_, rf_ in out_:
-                if s_ in p.strings or t_ not in tbx: continue
                 k_ = t_.decode('latin1')
-                if rf_ and k_ not in SINGLE_OK: continue
+                if s_ in p.strings or (t_ not in tbx and not (k_ in UP_OK and t_.lower() in tbci)): continue
+                if rf_ and k_ not in SINGLE_OK and k_ not in UP_OK: continue
                 if k_ in RELBLOCK or k_ in INLBLOCK or k_ in tm['city'] or k_ in tm['nick']: continue
-                v_ = tbx[t_]; cap_ = ((s_ + len(t_) + 1 + 3) & ~3) - s_
+                v_ = tbx.get(t_) or tbci[t_.lower()]; cap_ = ((s_ + len(t_) + 1 + 3) & ~3) - s_
                 if len(v_) + 1 > cap_ or any(p.r.d[s_ + len(t_):s_ + cap_]): continue
                 p.fix[s_] = v_ + bytes(cap_ - len(v_)); ni += 1
             print(n, '고정칸', ni)

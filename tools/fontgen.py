@@ -55,6 +55,9 @@ def nearest(P, rgba):
     P = np.array([list(p) for p in P], dtype=np.float32)
     return int(np.argmin(((P - np.array(rgba, np.float32)) ** 2 * [1, 1, 1, 3]).sum(1)))
 
+# 줄바꿈 측정용 반 폭 여유 (측정만 넓혀 칸 넘침 방지, 그리기는 그대로)
+MEAS = float(os.environ.get('FONT_MEAS', '1.15'))
+
 def build(name, chars, W=1024, prio=None):
     d = open(os.path.join(FONT, name + '.bin'), 'rb').read()
     hdr, subs = read_bin(d)
@@ -115,8 +118,8 @@ def build(name, chars, W=1024, prio=None):
         newsubs.append(recs)
     # 레코드 0 = 앞 서브폰트 반 폭
     for si in range(1, len(newsubs)):
-        newsubs[si][0] = [0.0] * 4 + [halfs[si - 1], 0, 0, 0, 0, 0]
-    tail = [0.0] * 4 + [halfs[-1], 0, 0, 0, 0, 0]
+        newsubs[si][0] = [0.0] * 4 + [int(halfs[si - 1] * MEAS + .5), 0, 0, 0, 0, 0]
+    tail = [0.0] * 4 + [int(halfs[-1] * MEAS + .5), 0, 0, 0, 0, 0]
     # 한글 글자 폭 통일 (반 폭 x2) - 측정과 렌더 일치
     for si, recs in enumerate(newsubs):
         for r in recs[KBASE:]:
