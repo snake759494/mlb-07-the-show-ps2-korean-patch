@@ -205,8 +205,8 @@ def main(run_build=True):
             ni = 0
             for s_, t_, rf_ in out_:
                 k_ = t_.decode('latin1')
-                if s_ in p.strings or (t_ not in tbx and not (k_ in UP_OK and t_.lower() in tbci)): continue
-                if rf_ and k_ not in SINGLE_OK and k_ not in UP_OK: continue
+                if s_ in p.strings or (t_ not in tbx and not (os.environ.get('UPOK') and k_ in UP_OK and t_.lower() in tbci)): continue
+                if rf_ and k_ not in SINGLE_OK and not (os.environ.get('UPOK') and k_ in UP_OK): continue
                 if k_ in RELBLOCK or k_ in INLBLOCK or k_ in tm['city'] or k_ in tm['nick']: continue
                 v_ = tbx.get(t_) or tbci[t_.lower()]; cap_ = ((s_ + len(t_) + 1 + 3) & ~3) - s_
                 if len(v_) + 1 > cap_ or any(p.r.d[s_ + len(t_):s_ + cap_]): continue

@@ -1,10 +1,10 @@
 {
- "version": "v1.1",
- "date": "2026-11-24",
+ "version": "v1.2",
+ "date": "2026-11-26",
  "game": "MLB 07: The Show (USA) (v2.00) / SCUS-97556 / PS2 (DVD ISO)",
- "asset": "MLB07_THE_SHOW_PS2_KO_v1.1.xdelta",
- "asset_size": 35004553,
- "asset_sha256": "7eb617e42b90d20db73032a5456dc61507107d69dceef48cafe5e3027cd50c9e",
+ "asset": "MLB07_THE_SHOW_PS2_KO_v1.2.xdelta",
+ "asset_size": 35002769,
+ "asset_sha256": "29d587bb5a09325316c09521418c0329d34ee469071dc28f9a855324bba3331d",
  "xdelta_options": "xdelta3 -e -S none -A (no secondary compression, no application header)",
  "source_iso_size": 4386258944,
  "source_iso_md5": "f946e0b4d61b7c4af9b78c22eaa9d4e5",
@@ -12,8 +12,8 @@
  "source_iso_sha256": "054d4fefe7936f08a9d823857748785bd1e0697237db546274330c09d89634ba",
  "source_elf_crc": "DC34A11C",
  "output_iso_size": 4419864576,
- "output_iso_md5": "3a9128332d13dc566d1dabdcd6681de9",
- "output_iso_sha1": "ba59f5cc9df0917dc3a1d0ea1076f7e55a5520ce",
- "output_iso_sha256": "fb1d2bee21b5bd00ef0c491faa35bf223ec79bc85b5c65057f8f131df08ed613",
+ "output_iso_md5": "de52d6618f6ce8c73d0038e798cf9176",
+ "output_iso_sha1": "9e5c6d82219b9ee21d5aa13c579c33256610d591",
+ "output_iso_sha256": "ebdf60853b18617e70e300be913862546143fc68ad3a544743b4e246897084d4",
  "output_elf_crc": "DC34A11C"
 }
